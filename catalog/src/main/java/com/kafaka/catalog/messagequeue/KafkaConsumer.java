@@ -5,6 +5,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kafaka.catalog.jpa.CatalogEntity;
 import com.kafaka.catalog.jpa.CatalogRepository;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.annotation.KafkaListener;
@@ -13,15 +14,11 @@ import org.springframework.stereotype.Service;
 import java.util.HashMap;
 import java.util.Map;
 
+@RequiredArgsConstructor
 @Service
 @Slf4j
 public class KafkaConsumer {
-    CatalogRepository repository;
-
-    @Autowired
-    public KafkaConsumer(CatalogRepository repository) {
-        this.repository = repository;
-    }
+    private final CatalogRepository repository;
 
     @KafkaListener(topics = "example-catalog-topic")
     public void updateQty(String kafkaMessage) {
